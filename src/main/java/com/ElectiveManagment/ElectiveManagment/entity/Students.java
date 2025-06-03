@@ -1,10 +1,10 @@
 package com.ElectiveManagment.ElectiveManagment.entity;
 
 import com.ElectiveManagment.ElectiveManagment.Enums.Branch;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -13,4 +13,44 @@ public class Students extends User {
     private float cgpa;
     private  String RollNumber;
     private Branch branch;
+
+    public List<Course> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
+    public void setEnrolledCourses(List<Course> enrolledCourses) {
+        this.enrolledCourses = enrolledCourses;
+    }
+
+    @ManyToOne
+    @JoinTable(
+            name = "student_course_enrollments",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> enrolledCourses = new ArrayList<>();
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public String getRollNumber() {
+        return RollNumber;
+    }
+
+    public void setRollNumber(String rollNumber) {
+        RollNumber = rollNumber;
+    }
+
+    public float getCgpa() {
+        return cgpa;
+    }
+
+    public void setCgpa(float cgpa) {
+        this.cgpa = cgpa;
+    }
 }
