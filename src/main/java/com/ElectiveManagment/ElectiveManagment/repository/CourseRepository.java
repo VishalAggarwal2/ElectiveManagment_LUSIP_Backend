@@ -1,10 +1,14 @@
 package com.ElectiveManagment.ElectiveManagment.repository;
 
+
 import com.ElectiveManagment.ElectiveManagment.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CourseRepository extends JpaRepository<Course, Integer> {
-    List<Course> findByFacultyId(int facultyId);
+@Repository
+public interface CourseRepository extends JpaRepository<Course,Integer> {
+    Optional<Course> findByCourseName(String Name);
 }

@@ -7,5 +7,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
     ResponseEntity<ApiSuccessMessgage<String>> signup(SignupRequest request);
-    ResponseEntity<ApiSuccessMessgage<String>> login(LoginRequest request);
+    ResponseEntity<ApiSuccessMessgage> login(LoginRequest request);
 }

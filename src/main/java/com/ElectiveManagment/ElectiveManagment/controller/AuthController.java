@@ -3,6 +3,7 @@ package com.ElectiveManagment.ElectiveManagment.controller;
 import com.ElectiveManagment.ElectiveManagment.dto.ApiSuccessMessgage;
 import com.ElectiveManagment.ElectiveManagment.dto.LoginRequest;
 import com.ElectiveManagment.ElectiveManagment.dto.SignupRequest;
+import com.ElectiveManagment.ElectiveManagment.entity.Students;
 import com.ElectiveManagment.ElectiveManagment.service.Impl.AuthServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiSuccessMessgage<String>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ApiSuccessMessgage> login(@RequestBody LoginRequest request) {
         return authService.login(request);
     }
 

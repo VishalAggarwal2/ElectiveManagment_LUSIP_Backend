@@ -1,5 +1,6 @@
 package com.ElectiveManagment.ElectiveManagment.service.Impl;
 
+import com.ElectiveManagment.ElectiveManagment.dto.ApiSuccessMessgage;
 import com.ElectiveManagment.ElectiveManagment.entity.Course;
 import com.ElectiveManagment.ElectiveManagment.entity.Faculty;
 import com.ElectiveManagment.ElectiveManagment.entity.Students;
@@ -9,71 +10,79 @@ import com.ElectiveManagment.ElectiveManagment.repository.FacultyRepository;
 import com.ElectiveManagment.ElectiveManagment.repository.StudentRepository;
 import com.ElectiveManagment.ElectiveManagment.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class CourseServiceImpl implements CourseService {
+public class CourseServiceImpl  implements CourseService {
+
     @Autowired
-    private CourseRepository courseRepository;
+    CourseRepository cr;
+
     @Autowired
-    private FacultyRepository facultyRepository;
+    FacultyRepository fr;
+
     @Autowired
-    private StudentRepository studentRepository;
+    StudentRepository sr;
 
     @Override
-    public Course addCourse(int facultyId, Course course) throws ResourceNotFoundException {
-        Faculty faculty = facultyRepository.findById(facultyId)
-                .orElseThrow(() -> new ResourceNotFoundException("Faculty not found with id " + facultyId));
-        course.setFaculty(faculty);
-        return courseRepository.save(course);
+    public ResponseEntity<ApiSuccessMessgage> addCourse(int facultyId, Course c) {
+
+
+        String CourseName = c.getCourseName();
+
+        return null;
+
+
     }
 
+
+
     @Override
-    public void enrollCourse(int studentId, Integer courseId) throws ResourceNotFoundException {
-        Students student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + studentId));
+    public ResponseEntity<ApiSuccessMessgage> viewMyOfferedCourse(int facultyId) {
+        Optional<Faculty> faculty = fr.findById(facultyId);
 
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + courseId));
-
-        if(course.getStudents().size() >= course.getStudentLimit()){
-            throw new IllegalStateException("Course limit reached. Cannot enroll more students.");
+        if(faculty.isEmpty()){
+            throw new ResourceNotFoundException("Faculty Not Exist");
         }
 
-        // Avoid duplicate enrollment
-        if(student.getEnrolledCourses().contains(course)){
-            throw new IllegalStateException("Student already enrolled in this course.");
+        List<Course> allMyCoursed = faculty.get().getCourses();
+        ApiSuccessMessgage<List<Course>> apiResponse = new ApiSuccessMessgage<>();
+        apiResponse.setBody(allMyCoursed);
+        apiResponse.setMessage("All My Offered Course");
+        apiResponse.setSuccess(true);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<ApiSuccessMessgage> viewMyEnrolledCourse(int studentId) {
+        Optional<Students> faculty = sr.findById(studentId);
+
+        if(faculty.isEmpty()){
+            throw new ResourceNotFoundException("Student Not Exist");
         }
 
-        student.getEnrolledCourses().add(course);
-        course.getStudents().add(student);
-
-        // Save updated entities
-        studentRepository.save(student);
-        courseRepository.save(course);
-    }
-
-
-
-    @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+        List<Course> allMyCoursed = faculty.get().getEnrolledCourses();
+        ApiSuccessMessgage<List<Course>> apiResponse = new ApiSuccessMessgage<>();
+        apiResponse.setBody(allMyCoursed);
+        apiResponse.setMessage("All My Enrolled Course Course");
+        apiResponse.setSuccess(true);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @Override
-    public List<Course> getCoursesByFaculty(int facultyId) throws ResourceNotFoundException {
-        if (!facultyRepository.existsById(facultyId)) {
-            throw new ResourceNotFoundException("Faculty not found with id " + facultyId);
-        }
-        return courseRepository.findByFacultyId(facultyId);
-    }
-
-
-    @Override
-    public List<Course> getEnrolledCoursesByStudent(int studentId) throws ResourceNotFoundException {
-        Students student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + studentId));
-        return student.getEnrolledCourses();
+    public ResponseEntity<ApiSuccessMessgage> viewAllAvailableCourse() {
+    List<Course> c = cr.findAll();
+    ApiSuccessMessgage<List<Course>> apiResponse = new ApiSuccessMessgage<>();
+        apiResponse.setBody(c);
+        apiResponse.setMessage("All  Course ");
+        apiResponse.setSuccess(true);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
+

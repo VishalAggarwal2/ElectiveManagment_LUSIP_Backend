@@ -10,6 +10,10 @@ public abstract class User {
 @GeneratedValue(strategy = GenerationType.AUTO)
 private int id;
 private String FirstName;
+private String LastName;
+private String email;
+private String Password;
+private String Number;
 
     public int getId() {
         return id;
@@ -59,8 +63,5 @@ private String FirstName;
         Number = number;
     }
 
-    private String LastName;
-private String email;
-private String Password;
-private String Number;
+
 }

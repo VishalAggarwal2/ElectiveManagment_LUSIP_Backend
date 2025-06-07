@@ -6,6 +6,7 @@ import com.ElectiveManagment.ElectiveManagment.dto.LoginRequest;
 import com.ElectiveManagment.ElectiveManagment.dto.SignupRequest;
 import com.ElectiveManagment.ElectiveManagment.entity.Faculty;
 import com.ElectiveManagment.ElectiveManagment.entity.Students;
+import com.ElectiveManagment.ElectiveManagment.entity.User;
 import com.ElectiveManagment.ElectiveManagment.exceptions.ResourceNotFoundException;
 import com.ElectiveManagment.ElectiveManagment.repository.FacultyRepository;
 import com.ElectiveManagment.ElectiveManagment.repository.StudentRepository;
@@ -68,18 +69,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<ApiSuccessMessgage<String>> login(LoginRequest request) {
-        ApiSuccessMessgage<String> response = new ApiSuccessMessgage<>();
+    public ResponseEntity<ApiSuccessMessgage> login(LoginRequest request) {
+
+        ApiSuccessMessgage<User> response = new ApiSuccessMessgage<>();
 
         Optional<Students> studentOpt = studentRepo.findByEmail(request.getEmail());
         if (studentOpt.isPresent()) {
             if (studentOpt.get().getPassword().equals(request.getPassword())) {
                 response.setSuccess(true);
                 response.setMessage("Student login successful!");
-                response.setBody(null);
+                response.setBody(studentOpt.get());
                 return ResponseEntity.ok(response);
-            } else {
-                throw new ResourceNotFoundException("Incorrect password for student.");
             }
         }
 

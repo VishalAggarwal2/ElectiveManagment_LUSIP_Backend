@@ -3,6 +3,7 @@ package com.ElectiveManagment.ElectiveManagment.dto;
 public class ApiSuccessMessgage<T> {
     T body;
     String message;
+    boolean success;
 
     public T getBody() {
         return body;
@@ -28,5 +29,4 @@ public class ApiSuccessMessgage<T> {
         this.success = success;
     }
 
-    boolean success;
 }
