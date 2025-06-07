@@ -1,5 +1,4 @@
 package com.ElectiveManagment.ElectiveManagment.repository;
-
 import com.ElectiveManagment.ElectiveManagment.entity.Course;
 import com.ElectiveManagment.ElectiveManagment.entity.Faculty;
 import org.springframework.data.jpa.repository.JpaRepository;

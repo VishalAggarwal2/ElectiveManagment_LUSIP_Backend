@@ -2,6 +2,8 @@ package com.ElectiveManagment.ElectiveManagment.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="Users")
@@ -9,11 +11,21 @@ public abstract class User {
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
 private int id;
-private String FirstName;
-private String LastName;
+private String firstName;
+private String lastName;
 private String email;
 private String Password;
 private String Number;
+
+public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    private List<String> roles;
 
     public int getId() {
         return id;
@@ -24,19 +36,19 @@ private String Number;
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getEmail() {

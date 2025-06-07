@@ -17,7 +17,39 @@ public class Course {
 
     private String courseName;
     private String courseDesc;
+
+    public int getGpaLimit() {
+        return gpaLimit;
+    }
+
+    public void setGpaLimit(int gpaLimit) {
+        this.gpaLimit = gpaLimit;
+    }
+
     private int StudentLimit;
+    private int gpaLimit;
+
+    public int getStudentEnrolledCount() {
+        return studentEnrolledCount;
+    }
+
+    public void setStudentEnrolledCount(int studentEnrolledCount) {
+        this.studentEnrolledCount = studentEnrolledCount;
+    }
+
+    private int studentEnrolledCount;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Version
+    private int version;
+
 
 
     @ManyToMany
