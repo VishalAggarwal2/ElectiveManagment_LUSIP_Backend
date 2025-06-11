@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<Course,Integer> {
     Optional<Course> findByCourseName(String Name);
 //    // Vishal:- This Is Just Used WHen We Want no conflict
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
-//    @Query("SELECT c FROM Course c WHERE c.id = :id")
-//    Optional<Course> findByIdForUpdate(@Param("id") int id);
+   @Lock(LockModeType.PESSIMISTIC_WRITE)
+   @Query("SELECT c FROM Course c WHERE c.id = :id")
+   Optional<Course> findByIdForUpdate(@Param("id") int id);
 }
